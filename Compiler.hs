@@ -3,7 +3,6 @@ module Brainfuck.Compiler (Brainfuck(..), Program, compile) where
 import Brainfuck.Parser
 import Prelude hiding (Either(..))
 
-import Control.Lens
 import Control.Monad.Free
 
 -- Higher level semantic graph
@@ -34,7 +33,8 @@ bracket (c:cs) (Close : xs) = (Free (Branch n c), n:bs)
 bracket cs (Open : xs) = (Free (Branch b n), bs)
   where (n, b:bs) = bracket (n:cs) xs
 
-bracket cs (x:xs) = _1 %~ Free . f x $ bracket cs xs
+-- Match any other symbol in the trivial way
+bracket cs (x:xs) = let (n,c) = bracket cs xs in (Free (f x n), c)
   where
     f Plus  = Succ; f Minus = Pred
     f Right = Next; f Left  = Prev
