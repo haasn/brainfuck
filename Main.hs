@@ -5,8 +5,8 @@ import Brainfuck.Interpreter
 import Control.Applicative
 import Control.Monad (join)
 
+import qualified Data.ByteString.Lazy as BS
 import qualified Data.Stream as S
-import Data.Char (chr, ord)
 
 import System.Environment (getArgs)
 import System.IO
@@ -28,12 +28,13 @@ main = do
     _ -> putStrLn "Usage: brainfuck [program]"
 
 run :: Input -> String -> IO ()
-run i = putStr . map (chr . fromIntegral) . interpret i . compile . parse
+run i = mapM_ putByte . interpret i . compile . parse
+  where putByte = BS.putStr . BS.pack . return
 
 -- EOF is represented as 0
 getInput :: IO Input
-getInput = fmap f getContents
-  where f s = S.fromList (map (fromIntegral . ord) s ++ repeat 0)
+getInput = f <$> BS.getContents
+  where f s = S.fromList (BS.unpack s ++ repeat 0)
 
 noInput :: Input
 noInput = S.repeat 0
