@@ -6,7 +6,7 @@ import Control.Applicative
 import Control.Monad (join)
 
 import qualified Data.ByteString.Lazy as BS
-import qualified Data.Stream as S
+import qualified Data.Stream.Infinite as S
 
 import System.Environment (getArgs)
 import System.IO

@@ -8,7 +8,7 @@ import Control.Monad.Free
 import Control.Monad.RWS
 
 import Data.Maybe (fromMaybe)
-import qualified Data.Stream as S
+import qualified Data.Stream.Infinite as S
 import Data.Word (Word8)
 
 -- RWS-based interpreter
