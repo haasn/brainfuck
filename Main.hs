@@ -9,9 +9,13 @@ import qualified Data.Stream as S
 import Data.Char (chr, ord)
 
 import System.Environment (getArgs)
+import System.IO
 
 main :: IO ()
 main = do
+  hSetBuffering stdin  NoBuffering
+  hSetBuffering stdout NoBuffering
+
   as <- getArgs
   case as of
     -- STDIN is program
