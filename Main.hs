@@ -13,13 +13,14 @@ import System.IO
 
 main :: IO ()
 main = do
-  hSetBuffering stdin  NoBuffering
-  hSetBuffering stdout NoBuffering
-
   as <- getArgs
   case as of
     -- STDIN is program
-    [ ] -> getContents >>= run noInput
+    [ ] -> do
+      hSetBuffering stdin  NoBuffering
+      hSetBuffering stdout NoBuffering
+
+      getContents >>= run noInput
 
     -- STDIN is input
     [f] -> join $ run <$> getInput <*> readFile f
